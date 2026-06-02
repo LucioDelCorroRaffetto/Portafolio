@@ -84,6 +84,7 @@ export type I18n = {
   sidebarDownloadCV: string;
   sidebarLocation: string;
   githubActivityTitle: string;
+  githubActivityViewProfile: string;
   githubActivityEmpty: string;
   githubActivityLoading: string;
   skillsMatcherBtn: string;
@@ -222,6 +223,7 @@ export const i18n: Record<Locale, I18n> = {
     sidebarDownloadCV: "Descargar CV",
     sidebarLocation: "Buenos Aires · Remoto",
     githubActivityTitle: "Actividad en GitHub",
+    githubActivityViewProfile: "Ver perfil en GitHub",
     githubActivityEmpty: "Sin actividad reciente.",
     githubActivityLoading: "Cargando...",
     skillsMatcherBtn: "¿Qué tan bien encajo?",
@@ -239,7 +241,7 @@ export const i18n: Record<Locale, I18n> = {
     testimonialsDescription:
       "Feedback directo de colegas y colaboradores con quienes construí producto en entornos reales.",
     perfWidgetTitle: "Lighthouse Scores",
-    perfWidgetNote: "Medido en producción",
+    perfWidgetNote: "Lighthouse 12 · desktop · jun 2026",
     recruiterModeOn: "Modo Reclutador",
     recruiterModeOff: "Vista completa",
     recruiterModeLabel: "Vista rápida · descargá el CV para más detalle",
@@ -359,6 +361,7 @@ export const i18n: Record<Locale, I18n> = {
     sidebarDownloadCV: "Download CV",
     sidebarLocation: "Buenos Aires · Remote",
     githubActivityTitle: "GitHub Activity",
+    githubActivityViewProfile: "View GitHub profile",
     githubActivityEmpty: "No recent activity.",
     githubActivityLoading: "Loading...",
     skillsMatcherBtn: "How well do I fit?",
@@ -376,7 +379,7 @@ export const i18n: Record<Locale, I18n> = {
     testimonialsDescription:
       "Direct feedback from colleagues and collaborators I've built real products with.",
     perfWidgetTitle: "Lighthouse Scores",
-    perfWidgetNote: "Measured in production",
+    perfWidgetNote: "Lighthouse 12 · desktop · Jun 2026",
     recruiterModeOn: "Recruiter Mode",
     recruiterModeOff: "Full view",
     recruiterModeLabel: "Quick view · download the CV for more detail",

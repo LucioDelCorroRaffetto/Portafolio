@@ -8,10 +8,11 @@ interface PerformanceWidgetProps {
   locale: Locale;
 }
 
+// Real Lighthouse 12 scores measured on the production deploy (lucio-dev.vercel.app).
 const SCORES = {
-  performance: 98,
-  accessibility: 95,
-  bestPractices: 100,
+  performance: 100,
+  accessibility: 96,
+  bestPractices: 96,
   seo: 100,
 } as const;
 
