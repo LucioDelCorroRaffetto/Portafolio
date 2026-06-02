@@ -43,7 +43,7 @@ export function Sidebar({
   return (
     <aside className="hidden w-56 flex-shrink-0 border-r border-[color:var(--border)]/60 bg-background/95 md:flex md:flex-col">
       {/* ── Scrollable body ── */}
-      <div className="flex flex-1 flex-col gap-5 overflow-y-auto px-4 py-6">
+      <div className="scrollbar-hide flex flex-1 flex-col gap-4 overflow-y-auto px-4 py-5">
 
         {/* ── 1. Profile block ── */}
         <div className="flex flex-col items-center gap-3 pb-1 text-center">

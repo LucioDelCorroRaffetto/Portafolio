@@ -215,7 +215,7 @@ export const projects: Project[] = [
   {
     slug: "contactship",
     type: "microservice",
-    featured: true,
+    featured: false,
     status: "personal",
     title: {
       es: "ContactShip – Microservicio de Leads con IA",
@@ -279,7 +279,7 @@ export const projects: Project[] = [
   {
     slug: "impostor-app",
     type: "game",
-    featured: true,
+    featured: false,
     status: "live",
     title: {
       es: "El Impostor – Party Game PWA",

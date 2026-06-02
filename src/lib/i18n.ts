@@ -59,6 +59,12 @@ export type I18n = {
   projectStatusProfessional: string;
   projectStatusPersonal: string;
   projectStatusAcademic: string;
+  projectDetails: string;
+  projectOpenAria: (title: string) => string;
+  projectSectionContext: string;
+  projectSectionResponsibilities: string;
+  projectSectionArchitecture: string;
+  projectSectionStack: string;
   projectGithubAria: (title: string) => string;
   projectLiveAria: (title: string) => string;
   terminalAriaOpen: string;
@@ -174,7 +180,7 @@ export const i18n: Record<Locale, I18n> = {
     projectsHeading: "Casos de estudio seleccionados",
     projectsDescription:
       "Proyectos que resumen cómo pienso el frontend, el backend y las decisiones de arquitectura cuando construyo productos.",
-    filtersAll: "Todos los proyectos",
+    filtersAll: "Más proyectos",
     filtersTypeAll: "Tipo: todos",
     filtersTechAll: "Stack: todos",
     projectMetrics: "Métricas: ",
@@ -183,6 +189,12 @@ export const i18n: Record<Locale, I18n> = {
     projectStatusProfessional: "Profesional",
     projectStatusPersonal: "Personal",
     projectStatusAcademic: "Académico",
+    projectDetails: "Ver detalles",
+    projectOpenAria: (title) => `Ver detalles de ${title}`,
+    projectSectionContext: "Contexto",
+    projectSectionResponsibilities: "Rol y responsabilidades",
+    projectSectionArchitecture: "Arquitectura y decisiones",
+    projectSectionStack: "Stack",
     projectGithubAria: (title) => `Ver código de ${title} en GitHub`,
     projectLiveAria: (title) => `Ver ${title} en vivo`,
     terminalAriaOpen: "Abrir terminal interactivo",
@@ -305,7 +317,7 @@ export const i18n: Record<Locale, I18n> = {
     projectsHeading: "Selected case studies",
     projectsDescription:
       "Projects that show how I approach frontend, backend and architecture decisions when building products.",
-    filtersAll: "All projects",
+    filtersAll: "More projects",
     filtersTypeAll: "Type: all",
     filtersTechAll: "Stack: all",
     projectMetrics: "Metrics: ",
@@ -314,6 +326,12 @@ export const i18n: Record<Locale, I18n> = {
     projectStatusProfessional: "Professional",
     projectStatusPersonal: "Personal",
     projectStatusAcademic: "Academic",
+    projectDetails: "View details",
+    projectOpenAria: (title) => `View details of ${title}`,
+    projectSectionContext: "Context",
+    projectSectionResponsibilities: "Role & responsibilities",
+    projectSectionArchitecture: "Architecture & decisions",
+    projectSectionStack: "Stack",
     projectGithubAria: (title) => `View ${title} code on GitHub`,
     projectLiveAria: (title) => `View ${title} live`,
     terminalAriaOpen: "Open interactive terminal",

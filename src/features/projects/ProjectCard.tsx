@@ -1,40 +1,20 @@
 "use client";
 
+import type { KeyboardEvent as ReactKeyboardEvent } from "react";
 import Link from "next/link";
-import type { Project, ProjectStatus } from "@/types";
+import type { Project } from "@/types";
 import type { Locale } from "@/types";
 import { i18n } from "@/lib/i18n";
 import { Card } from "@/components/ui/Card";
 import { Chip } from "@/components/ui/Chip";
 import { TiltCard } from "@/components/effects/TiltCard";
+import { StatusBadge } from "./StatusBadge";
 
 interface ProjectCardProps {
   project: Project;
   locale: Locale;
   variant?: "featured" | "compact";
-}
-
-function StatusBadge({
-  status,
-  locale,
-}: {
-  status: ProjectStatus;
-  locale: Locale;
-}) {
-  const tx = i18n[locale];
-  const label = {
-    live: tx.projectStatusLive,
-    professional: tx.projectStatusProfessional,
-    personal: tx.projectStatusPersonal,
-    academic: tx.projectStatusAcademic,
-  }[status];
-
-  return (
-    <span className={`status-badge status-badge-${status}`}>
-      <span className="status-dot" aria-hidden />
-      {label}
-    </span>
-  );
+  onOpen?: (project: Project) => void;
 }
 
 function ProjectLinks({
@@ -54,6 +34,7 @@ function ProjectLinks({
           href={project.links.live}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={(e) => e.stopPropagation()}
           className="btn-primary inline-flex items-center gap-1.5"
           aria-label={liveAria}
         >
@@ -65,6 +46,7 @@ function ProjectLinks({
           href={project.links.github}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={(e) => e.stopPropagation()}
           className="btn-outline inline-flex items-center gap-1.5"
           aria-label={githubAria}
         >
@@ -89,10 +71,20 @@ function GithubGlyph() {
   );
 }
 
+function DetailsHint({ label }: { label: string }) {
+  return (
+    <span className="inline-flex items-center gap-1 text-[11px] font-medium text-[color:var(--accent)]">
+      {label}
+      <span aria-hidden>→</span>
+    </span>
+  );
+}
+
 export function ProjectCard({
   project,
   locale,
   variant = "featured",
+  onOpen,
 }: ProjectCardProps) {
   const tx = i18n[locale];
   const title = project.title[locale];
@@ -106,35 +98,55 @@ export function ProjectCard({
   const githubAria = tx.projectGithubAria(title);
   const liveAria = tx.projectLiveAria(title);
 
+  const clickable = Boolean(onOpen);
+  const interactiveProps = clickable
+    ? {
+        role: "button" as const,
+        tabIndex: 0,
+        onClick: () => onOpen?.(project),
+        onKeyDown: (e: ReactKeyboardEvent) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            onOpen?.(project);
+          }
+        },
+        "aria-label": tx.projectOpenAria(title),
+      }
+    : {};
+
   if (variant === "compact") {
     return (
-      <Card className="flex flex-col p-4" hover>
-        <div className="flex items-start justify-between gap-2">
-          <h3 className="text-sm font-semibold text-foreground">{title}</h3>
-          {project.status ? (
-            <StatusBadge status={project.status} locale={locale} />
-          ) : (
-            <Chip className="text-[10px] uppercase tracking-[0.15em]">
-              {project.type}
-            </Chip>
-          )}
-        </div>
-        <p className="mt-1 text-[11px] uppercase tracking-[0.15em] text-muted-soft">
-          {project.type}
-        </p>
-        <p className="mt-2 text-sm text-muted">{shortDesc}</p>
-        <p className="mt-1 text-xs text-muted">{role}</p>
-        {metrics && (
-          <p className="mt-1 text-xs text-muted">
-            {tx.projectMetrics}
-            {metrics}
+      <Card
+        className={`flex flex-col p-4 ${clickable ? "cursor-pointer" : ""}`}
+        hover
+      >
+        <div {...interactiveProps} className="flex flex-1 flex-col">
+          <div className="flex items-start justify-between gap-2">
+            <h3 className="text-sm font-semibold text-foreground">{title}</h3>
+            {project.status ? (
+              <StatusBadge status={project.status} locale={locale} />
+            ) : (
+              <Chip className="text-[10px] uppercase tracking-[0.15em]">
+                {project.type}
+              </Chip>
+            )}
+          </div>
+          <p className="mt-1 text-[11px] uppercase tracking-[0.15em] text-muted-soft">
+            {project.type}
           </p>
-        )}
-        <div className="mt-4 flex flex-wrap gap-2">
-          {techStack.map((tech) => (
-            <Chip key={tech}>{tech}</Chip>
-          ))}
-          {extraTech > 0 && <Chip>+{extraTech}</Chip>}
+          <p className="mt-2 text-sm text-muted">{shortDesc}</p>
+          <p className="mt-1 text-xs text-muted">{role}</p>
+          <div className="mt-4 flex flex-wrap gap-2">
+            {techStack.map((tech) => (
+              <Chip key={tech}>{tech}</Chip>
+            ))}
+            {extraTech > 0 && <Chip>+{extraTech}</Chip>}
+          </div>
+          {clickable && (
+            <div className="mt-4">
+              <DetailsHint label={tx.projectDetails} />
+            </div>
+          )}
         </div>
         <ProjectLinks
           project={project}
@@ -149,34 +161,43 @@ export function ProjectCard({
     <TiltCard>
       <div className="featured-card-wrapper h-full">
         <div className="featured-card-spinner" aria-hidden />
-        <Card className="flex h-full flex-col p-5">
-          <div className="flex items-start justify-between gap-3">
-            <div>
-              <h3 className="text-lg font-semibold text-foreground">{title}</h3>
-              <p className="mt-1 text-[11px] uppercase tracking-[0.18em] text-muted-soft">
-                {project.type}
-              </p>
+        <Card className={`flex h-full flex-col p-5 ${clickable ? "cursor-pointer" : ""}`}>
+          <div {...interactiveProps} className="flex flex-1 flex-col">
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <h3 className="text-lg font-semibold text-foreground">{title}</h3>
+                <p className="mt-1 text-[11px] uppercase tracking-[0.18em] text-muted-soft">
+                  {project.type}
+                </p>
+              </div>
+              {project.status && (
+                <StatusBadge status={project.status} locale={locale} />
+              )}
             </div>
-            {project.status && (
-              <StatusBadge status={project.status} locale={locale} />
+            <p className="mt-3 text-sm text-muted">{shortDesc}</p>
+            <p className="mt-3 text-xs font-medium text-foreground">{role}</p>
+            {ownership && (
+              <p className="mt-1 text-xs leading-snug text-muted line-clamp-2">
+                {ownership}
+              </p>
             )}
-          </div>
-          <p className="mt-3 text-sm text-muted">{shortDesc}</p>
-          <p className="mt-3 text-xs font-medium text-foreground">{role}</p>
-          {ownership && (
-            <p className="mt-1 text-xs leading-snug text-muted">{ownership}</p>
-          )}
-          {metrics && (
-            <p className="mt-3 text-[11px] text-muted border-t border-[color:var(--border)]/50 pt-2">
-              <span className="text-[color:var(--accent)] font-medium">↗</span>{" "}
-              {metrics}
-            </p>
-          )}
-          <div className="mt-4 flex flex-wrap gap-2">
-            {techStack.map((tech) => (
-              <Chip key={tech}>{tech}</Chip>
-            ))}
-            {extraTech > 0 && <Chip>+{extraTech}</Chip>}
+            {metrics && (
+              <p className="mt-3 text-[11px] text-muted border-t border-[color:var(--border)]/50 pt-2">
+                <span className="text-[color:var(--accent)] font-medium">↗</span>{" "}
+                {metrics}
+              </p>
+            )}
+            <div className="mt-4 flex flex-wrap gap-2">
+              {techStack.map((tech) => (
+                <Chip key={tech}>{tech}</Chip>
+              ))}
+              {extraTech > 0 && <Chip>+{extraTech}</Chip>}
+            </div>
+            {clickable && (
+              <div className="mt-4">
+                <DetailsHint label={tx.projectDetails} />
+              </div>
+            )}
           </div>
           <div className="mt-auto">
             <ProjectLinks

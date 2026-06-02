@@ -3,9 +3,6 @@
 import type { Locale } from "@/types";
 import { Card } from "@/components/ui/Card";
 import { EyebrowLabel } from "@/components/ui/EyebrowLabel";
-import { CodeSnippet } from "@/components/ui/CodeSnippet";
-import { codeSnippets } from "@/content/code-snippets";
-import { i18n } from "@/lib/i18n";
 
 const APPROACH_ITEMS_ES = [
   "Diseño primero la arquitectura y los límites del dominio",
@@ -29,7 +26,6 @@ interface ApproachSectionProps {
 
 export function ApproachSection({ locale }: ApproachSectionProps) {
   const items = locale === "es" ? APPROACH_ITEMS_ES : APPROACH_ITEMS_EN;
-  const tx = i18n[locale];
 
   return (
     <section id="approach" className="section">
@@ -61,17 +57,6 @@ export function ApproachSection({ locale }: ApproachSectionProps) {
               </p>
             </Card>
           ))}
-        </div>
-
-        <div className="mt-8 min-w-0 space-y-4">
-          <p className="text-xs font-semibold uppercase tracking-[0.35em] text-muted">
-            {tx.snippetsTitle}
-          </p>
-          <div className="min-w-0 space-y-6">
-            {codeSnippets.map((s) => (
-              <CodeSnippet key={s.id} snippet={s} locale={locale} />
-            ))}
-          </div>
         </div>
       </div>
     </section>

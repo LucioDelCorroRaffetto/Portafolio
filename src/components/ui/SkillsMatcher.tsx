@@ -62,11 +62,11 @@ export function SkillsMatcher({ locale }: SkillsMatcherProps) {
 
   return (
     <>
-      {/* Floating trigger button — bottom-left to avoid collision with Terminal (bottom-right) */}
+      {/* Floating trigger button — stacked above the Terminal button (bottom-right) to avoid overlapping the sidebar */}
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="fixed bottom-6 left-6 z-40 flex items-center gap-2 rounded-xl border border-[color:var(--border)] bg-[color:var(--background-soft)] px-4 py-2.5 text-xs font-medium text-foreground shadow-lg transition hover:border-[color:var(--accent)] hover:shadow-[0_0_20px_rgba(45,212,191,0.18)] focus:outline-none focus:ring-2 focus:ring-[color:var(--accent)]"
+        className="fixed bottom-[4.75rem] right-6 z-40 flex items-center gap-2 rounded-xl border border-[color:var(--border)] bg-[color:var(--background-soft)] px-4 py-2.5 text-xs font-medium text-foreground shadow-lg transition hover:border-[color:var(--accent)] hover:shadow-[0_0_20px_rgba(45,212,191,0.18)] focus:outline-none focus:ring-2 focus:ring-[color:var(--accent)]"
         aria-label={tx.skillsMatcherBtn}
       >
         <span className="text-[color:var(--accent)] text-sm leading-none">✦</span>
@@ -234,17 +234,6 @@ export function SkillsMatcher({ locale }: SkillsMatcherProps) {
         </div>
       )}
 
-      {/* Keyframe animations injected once via a style tag */}
-      <style>{`
-        @keyframes sm-fade-in {
-          from { opacity: 0; }
-          to   { opacity: 1; }
-        }
-        @keyframes sm-scale-in {
-          from { opacity: 0; transform: scale(0.95) translateY(8px); }
-          to   { opacity: 1; transform: scale(1)    translateY(0);   }
-        }
-      `}</style>
     </>
   );
 }

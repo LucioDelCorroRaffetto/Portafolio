@@ -59,7 +59,7 @@ export function PerformanceWidget({ locale }: PerformanceWidgetProps) {
   const tx = i18n[locale];
 
   return (
-    <div className="flex flex-col items-center gap-3 sm:items-end">
+    <div className="flex flex-col items-center gap-3 sm:items-start">
       {/* Header */}
       <div className="flex items-center gap-1.5">
         <LighthouseIcon />
@@ -69,7 +69,7 @@ export function PerformanceWidget({ locale }: PerformanceWidgetProps) {
       </div>
 
       {/* Rings row */}
-      <div className="flex items-end gap-4 sm:gap-5">
+      <div className="flex items-start gap-4 sm:gap-5">
         {(Object.keys(SCORES) as (keyof typeof SCORES)[]).map((key) => (
           <ScoreRing
             key={key}

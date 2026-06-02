@@ -107,8 +107,8 @@ export function ScoreRing({ score, label, size = 72 }: ScoreRingProps) {
       </svg>
 
       <span
-        className="text-center text-[9px] font-medium uppercase tracking-[0.12em] text-muted"
-        style={{ maxWidth: size }}
+        className="flex items-start justify-center text-center text-[9px] font-medium uppercase leading-tight tracking-[0.12em] text-muted"
+        style={{ maxWidth: size + 8, minHeight: "1.9em" }}
       >
         {label}
       </span>
