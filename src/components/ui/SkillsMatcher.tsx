@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { i18n } from "@/lib/i18n";
-import { LUCIO_SKILLS, matchSkills } from "@/lib/skill-matcher";
+import { matchSkills } from "@/lib/skill-matcher";
 import type { Locale } from "@/types";
 
 interface SkillsMatcherProps {
@@ -14,6 +14,7 @@ export function SkillsMatcher({ locale }: SkillsMatcherProps) {
   const [text, setText] = useState("");
   const [result, setResult] = useState<{
     matched: string[];
+    missing: string[];
     percentage: number;
   } | null>(null);
 
@@ -49,10 +50,6 @@ export function SkillsMatcher({ locale }: SkillsMatcherProps) {
       setTimeout(() => textareaRef.current?.focus(), 60);
     }
   }, [open, result]);
-
-  const unmatched = result
-    ? LUCIO_SKILLS.filter((s) => !result.matched.includes(s))
-    : [];
 
   const percentageColor =
     result === null
@@ -193,18 +190,19 @@ export function SkillsMatcher({ locale }: SkillsMatcherProps) {
                     </div>
                   )}
 
-                  {/* Not mentioned skills */}
-                  {unmatched.length > 0 && (
+                  {/* Job requirements not covered */}
+                  {result.missing.length > 0 && (
                     <div>
                       <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted">
-                        {locale === "es" ? "No mencionados:" : "Not mentioned:"}
+                        {tx.skillsMatcherMissing}
                       </p>
                       <div className="flex flex-wrap gap-1.5">
-                        {unmatched.map((skill) => (
+                        {result.missing.map((skill) => (
                           <span
                             key={skill}
-                            className="inline-flex rounded-full border border-[color:var(--border)] bg-[color:var(--accent-soft)] px-2.5 py-0.5 text-xs font-medium text-muted"
+                            className="inline-flex items-center gap-1 rounded-full border border-amber-500/30 bg-amber-500/10 px-2.5 py-0.5 text-xs font-medium text-amber-500"
                           >
+                            <span className="text-[10px]">○</span>
                             {skill}
                           </span>
                         ))}

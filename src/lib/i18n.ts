@@ -87,6 +87,7 @@ export type I18n = {
   skillsMatcherAnalyze: string;
   skillsMatcherResult: (n: number) => string;
   skillsMatcherMatched: string;
+  skillsMatcherMissing: string;
   skillsMatcherClose: string;
   testimonialsEyebrow: string;
   testimonialsHeading: string;
@@ -217,8 +218,9 @@ export const i18n: Record<Locale, I18n> = {
       "Pegá la descripción del puesto para ver cuántos de mis skills aplican.",
     skillsMatcherPlaceholder: "Pegá la descripción del puesto...",
     skillsMatcherAnalyze: "Analizar",
-    skillsMatcherResult: (n) => `${n}% de match`,
+    skillsMatcherResult: (n) => `${n}% de los requisitos cubiertos`,
     skillsMatcherMatched: "Skills encontrados:",
+    skillsMatcherMissing: "Requisitos que no cubro:",
     skillsMatcherClose: "Cerrar",
     testimonialsEyebrow: "Lo que dicen de mí",
     testimonialsHeading: "Colaboraciones reales, palabras reales.",
@@ -347,8 +349,9 @@ export const i18n: Record<Locale, I18n> = {
       "Paste the job description to see how many of my skills apply.",
     skillsMatcherPlaceholder: "Paste the job description...",
     skillsMatcherAnalyze: "Analyze",
-    skillsMatcherResult: (n) => `${n}% match`,
+    skillsMatcherResult: (n) => `${n}% of requirements covered`,
     skillsMatcherMatched: "Skills found:",
+    skillsMatcherMissing: "Requirements I don't cover:",
     skillsMatcherClose: "Close",
     testimonialsEyebrow: "What they say",
     testimonialsHeading: "Real collaborations, real words.",

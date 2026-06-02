@@ -57,24 +57,70 @@ const ALIASES: Record<string, string[]> = {
   "monorepo": ["turborepo", "nx", "mono repo"],
 };
 
+/**
+ * Tecnologías que Lucio NO maneja, usadas solo para *detectar* requisitos del
+ * puesto que no cubre. No se muestran como skills propias.
+ */
+const OTHER_TECH: Record<string, string[]> = {
+  Angular: ["angular"],
+  "Vue.js": ["vue", "vuejs", "vue js", "nuxt"],
+  Svelte: ["svelte", "sveltekit"],
+  Python: ["python", "django", "flask", "fastapi"],
+  Java: ["java", "spring", "spring boot"],
+  Go: ["golang", "go lang"],
+  Rust: ["rust"],
+  PHP: ["php", "laravel", "symfony"],
+  Ruby: ["ruby", "rails", "ruby on rails"],
+  "C#": ["c#", "csharp", ".net", "dotnet", "asp.net"],
+  "C++": ["c++"],
+  Kubernetes: ["kubernetes", "k8s"],
+  AWS: ["aws", "amazon web services", "lambda", "s3", "ec2"],
+  GCP: ["gcp", "google cloud"],
+  Azure: ["azure"],
+  Terraform: ["terraform"],
+  MongoDB: ["mongodb", "mongo", "mongoose"],
+  DynamoDB: ["dynamodb"],
+  Kafka: ["kafka"],
+  RabbitMQ: ["rabbitmq", "rabbit mq"],
+  Elasticsearch: ["elasticsearch", "elastic search", "elk"],
+  Redux: ["redux"],
+  Sass: ["sass", "scss"],
+  Jenkins: ["jenkins"],
+  Swift: ["swift", "swiftui"],
+  Kotlin: ["kotlin"],
+  Flutter: ["flutter", "dart"],
+  "React Native": ["react native"],
+};
+
+function mentioned(jdLower: string, term: string, aliases?: string[]): boolean {
+  if (jdLower.includes(term.toLowerCase())) return true;
+  return aliases ? aliases.some((a) => jdLower.includes(a)) : false;
+}
+
 export function matchSkills(jobDescription: string): {
+  /** Skills de Lucio mencionadas en la búsqueda. */
   matched: string[];
+  /** Tecnologías pedidas en la búsqueda que Lucio no maneja. */
+  missing: string[];
+  /** % de los requisitos detectados en la búsqueda que Lucio cubre. */
   percentage: number;
 } {
   const jdLower = jobDescription.toLowerCase();
 
-  const matched = LUCIO_SKILLS.filter((skill) => {
-    const skillLower = skill.toLowerCase();
-    if (jdLower.includes(skillLower)) return true;
+  const matched = LUCIO_SKILLS.filter((skill) =>
+    mentioned(jdLower, skill, ALIASES[skill])
+  );
 
-    const extras = ALIASES[skill];
-    if (extras) {
-      return extras.some((alias) => jdLower.includes(alias));
-    }
-    return false;
-  });
+  const missing = Object.keys(OTHER_TECH).filter((tech) =>
+    mentioned(jdLower, tech, OTHER_TECH[tech])
+  );
 
-  const percentage = Math.round((matched.length / LUCIO_SKILLS.length) * 100);
+  // % sobre los requisitos efectivamente detectados (cubiertos + no cubiertos).
+  const totalRequirements = matched.length + missing.length;
+  const percentage =
+    totalRequirements === 0
+      ? 0
+      : Math.round((matched.length / totalRequirements) * 100);
 
-  return { matched, percentage };
+  return { matched, missing, percentage };
 }
