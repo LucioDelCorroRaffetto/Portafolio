@@ -23,6 +23,9 @@ export function AboutSection({ locale }: AboutSectionProps) {
             <h2 className="section-heading">{tx.aboutHeading}</h2>
             <p className="section-description">{tx.aboutPara1}</p>
             <p className="mt-4 text-sm text-muted">{tx.aboutPara2}</p>
+            <div className="mt-8">
+              <GitHubActivity locale={locale} />
+            </div>
           </div>
 
           <div>
@@ -32,8 +35,7 @@ export function AboutSection({ locale }: AboutSectionProps) {
               locale={locale}
               className="mt-4"
             />
-            <div className="mt-6 grid gap-6 sm:grid-cols-2 sm:items-start">
-              <GitHubActivity locale={locale} />
+            <div className="mt-8">
               <PerformanceWidget locale={locale} />
             </div>
           </div>
