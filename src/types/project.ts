@@ -5,13 +5,25 @@ export type ProjectType =
   | "game"
   | "microservice";
 
+/**
+ * Estado del proyecto, usado para el badge de la card.
+ * - live: desplegado y accesible públicamente.
+ * - professional: trabajo profesional (cliente / software factory).
+ * - personal: proyecto personal / autodidacta.
+ * - academic: proyecto académico o integrador.
+ */
+export type ProjectStatus = "live" | "professional" | "personal" | "academic";
+
 export type TechTag =
   | "react"
   | "nextjs"
   | "typescript"
+  | "javascript"
   | "vite"
   | "tailwind"
   | "framer-motion"
+  | "zustand"
+  | "tanstack-query"
   | "node"
   | "express"
   | "nest"
@@ -19,9 +31,16 @@ export type TechTag =
   | "mysql"
   | "sequelize"
   | "typeorm"
+  | "drizzle"
+  | "turso"
   | "redis"
   | "bull"
+  | "websocket"
+  | "jwt"
+  | "pwa"
   | "huggingface"
+  | "docker"
+  | "vitest"
   | "tdd"
   | "clean-architecture"
   | "clean-code"
@@ -31,6 +50,8 @@ export interface Project {
   slug: string;
   type: ProjectType;
   featured: boolean;
+  /** Estado para el badge de la card (Live / Profesional / Personal / Académico). */
+  status?: ProjectStatus;
   title: { es: string; en: string };
   shortDescription: { es: string; en: string };
   longDescription: { es: string; en: string };

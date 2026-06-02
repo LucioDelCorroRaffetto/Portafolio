@@ -3,15 +3,15 @@
 import type { SectionId } from "@/types";
 import type { Locale } from "@/types";
 
-const NAV_LINKS: { id: SectionId; labelEs: string; labelEn: string }[] = [
-  { id: "hero", labelEs: "Overview", labelEn: "Overview" },
-  { id: "about", labelEs: "Sobre mí", labelEn: "About" },
-  { id: "approach", labelEs: "Cómo trabajo", labelEn: "How I work" },
-  { id: "projects", labelEs: "Proyectos", labelEn: "Projects" },
-  { id: "experience", labelEs: "Experiencia", labelEn: "Experience" },
-  { id: "exploring", labelEs: "Explorando", labelEn: "Exploring" },
-  { id: "learning", labelEs: "Formación", labelEn: "Learning" },
-  { id: "contact", labelEs: "Contacto", labelEn: "Contact" },
+const NAV_LINKS: { id: SectionId; label: { es: string; en: string } }[] = [
+  { id: "hero",       label: { es: "Overview",    en: "Overview"   } },
+  { id: "about",      label: { es: "Sobre mí",    en: "About"      } },
+  { id: "approach",   label: { es: "Cómo trabajo", en: "How I work" } },
+  { id: "projects",   label: { es: "Proyectos",   en: "Projects"   } },
+  { id: "experience", label: { es: "Experiencia", en: "Experience" } },
+  { id: "exploring",  label: { es: "Explorando",  en: "Exploring"  } },
+  { id: "learning",   label: { es: "Formación",   en: "Learning"   } },
+  { id: "contact",    label: { es: "Contacto",    en: "Contact"    } },
 ];
 
 interface NavbarProps {
@@ -31,7 +31,7 @@ export function Navbar({ locale, scrollToSection }: NavbarProps) {
           onClick={() => scrollToSection(item.id)}
           className="link text-muted hover:text-foreground"
         >
-          {locale === "es" ? item.labelEs : item.labelEn}
+          {item.label[locale]}
         </button>
       ))}
     </nav>

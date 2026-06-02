@@ -2,6 +2,7 @@
 
 import { siteConfig } from "@/config/site";
 import type { Locale } from "@/types";
+import { i18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 interface NowBlockProps {
@@ -15,6 +16,7 @@ export function NowBlock({
   className,
   variant = "sidebar",
 }: NowBlockProps) {
+  const tx = i18n[locale];
   const now = siteConfig.now[locale];
   const isSidebar = variant === "sidebar";
 
@@ -26,22 +28,18 @@ export function NowBlock({
         className
       )}
       role="region"
-      aria-label={locale === "es" ? "Ahora" : "Now"}
+      aria-label={tx.nowTitle}
     >
       <p className="font-semibold uppercase tracking-wider text-foreground">
-        {locale === "es" ? "Ahora" : "Now"}
+        {tx.nowTitle}
       </p>
       <ul className="mt-2 space-y-1.5 text-muted">
         <li>
-          <span className="text-muted-soft">
-            {locale === "es" ? "Construyendo" : "Building"}:{" "}
-          </span>
+          <span className="text-muted-soft">{tx.nowBuilding}: </span>
           {now.building}
         </li>
         <li>
-          <span className="text-muted-soft">
-            {locale === "es" ? "Aprendiendo" : "Learning"}:{" "}
-          </span>
+          <span className="text-muted-soft">{tx.nowLearning}: </span>
           {now.learning}
         </li>
       </ul>

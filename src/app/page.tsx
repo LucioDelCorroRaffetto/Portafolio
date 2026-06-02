@@ -7,10 +7,12 @@ import { useScrollSpy } from "@/hooks/useScrollSpy";
 import type { SectionId } from "@/types";
 import type { Locale } from "@/types";
 import { siteConfig } from "@/config/site";
+import { i18n } from "@/lib/i18n";
 
 import { Sidebar } from "@/components/layout/Sidebar";
 import { MobileHeader } from "@/components/layout/MobileHeader";
-import { CursorSpotlight } from "@/components/effects/CursorSpotlight";
+import { AuroraBackground } from "@/components/effects/AuroraBackground";
+import { NoiseOverlay } from "@/components/effects/NoiseOverlay";
 import { InteractiveTerminal } from "@/components/layout/InteractiveTerminal";
 
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
@@ -21,7 +23,12 @@ import { ProjectsSection } from "@/features/projects/ProjectsSection";
 import { ExperienceSection } from "@/features/experience/ExperienceSection";
 import { ExploringSection } from "@/features/exploring/ExploringSection";
 import { LearningSection } from "@/features/learning/LearningSection";
+import { TestimonialsSection } from "@/features/testimonials/TestimonialsSection";
+import { InsightsSection } from "@/features/insights/InsightsSection";
 import { ContactSection } from "@/features/contact/ContactSection";
+import { CommandPalette } from "@/components/ui/CommandPalette";
+import { useCommandPalette } from "@/hooks/useCommandPalette";
+import { SkillsMatcher } from "@/components/ui/SkillsMatcher";
 
 export default function Home() {
   const [locale, setLocale] = useState<Locale>("es");
@@ -31,6 +38,7 @@ export default function Home() {
 
   const { theme, setTheme } = useTheme();
   const activeSection = useScrollSpy();
+  const { open: cmdOpen, setOpen: setCmdOpen } = useCommandPalette();
 
   useEffect(() => {
     setMounted(true);
@@ -43,9 +51,12 @@ export default function Home() {
 
   const handleScrollTo = (id: SectionId) => () => scrollToSection(id);
 
+  const tx = i18n[locale];
+
   return (
     <div className="relative flex h-[100dvh] bg-background text-foreground">
-      <CursorSpotlight />
+      <AuroraBackground />
+      <NoiseOverlay />
       <div className="relative z-10 flex w-full flex-1">
       <Sidebar
         locale={locale}
@@ -58,16 +69,22 @@ export default function Home() {
       />
 
       <div className="flex-1">
-        <MobileHeader />
+        <MobileHeader
+          locale={locale}
+          setLocale={setLocale}
+          theme={theme}
+          setTheme={setTheme ?? (() => {})}
+          mounted={mounted}
+          activeSection={activeSection}
+          scrollToSection={scrollToSection}
+        />
 
-        <main className="scrollbar-hide h-full overflow-y-auto">
-          <AnimatedSection>
-            <HeroSection
-              locale={locale}
-              scrollToProjects={handleScrollTo("projects")}
-              scrollToContact={handleScrollTo("contact")}
-            />
-          </AnimatedSection>
+        <main className="scrollbar-hide h-full overflow-x-hidden overflow-y-auto">
+          <HeroSection
+            locale={locale}
+            scrollToProjects={handleScrollTo("projects")}
+            scrollToContact={handleScrollTo("contact")}
+          />
           <AnimatedSection delay={50}>
             <AboutSection locale={locale} />
           </AnimatedSection>
@@ -92,6 +109,12 @@ export default function Home() {
           <AnimatedSection delay={80}>
             <LearningSection locale={locale} />
           </AnimatedSection>
+          <AnimatedSection delay={80}>
+            <TestimonialsSection locale={locale} />
+          </AnimatedSection>
+          <AnimatedSection delay={80}>
+            <InsightsSection locale={locale} />
+          </AnimatedSection>
           <AnimatedSection delay={100}>
             <ContactSection locale={locale} />
           </AnimatedSection>
@@ -99,17 +122,23 @@ export default function Home() {
           <footer className="border-t border-[color:var(--border)]">
             <div className="container-page flex flex-col gap-2 py-4 text-[11px] text-muted sm:flex-row sm:items-center sm:justify-between">
               <p>© {new Date().getFullYear()} {siteConfig.name}.</p>
-              <p>
-                {locale === "es"
-                  ? "Construido como product lab con TypeScript y Tailwind CSS."
-                  : "Built as a small product lab with TypeScript and Tailwind CSS."}
-              </p>
+              <p>{tx.footerBuilt}</p>
             </div>
           </footer>
         </main>
       </div>
 
       <InteractiveTerminal locale={locale} scrollToSection={scrollToSection} />
+      <SkillsMatcher locale={locale} />
+      <CommandPalette
+        open={cmdOpen}
+        onClose={() => setCmdOpen(false)}
+        locale={locale}
+        setLocale={setLocale}
+        theme={theme}
+        setTheme={setTheme ?? (() => {})}
+        scrollToSection={scrollToSection}
+      />
       </div>
     </div>
   );

@@ -13,21 +13,15 @@ interface TechRadarProps {
   className?: string;
 }
 
+const RADAR_VIEW = { es: "Ver", en: "View" };
+
 const RADIUS = 100;
 const CENTER = 120;
 
-export function TechRadar({
-  categories,
-  locale,
-  className,
-}: TechRadarProps) {
+export function TechRadar({ categories, locale, className }: TechRadarProps) {
   const [activeId, setActiveId] = useState<string | null>(null);
   const active = categories.find((c) => c.id === activeId);
-  const items = active
-    ? locale === "es"
-      ? active.items.es
-      : active.items.en
-    : [];
+  const items = active ? active.items[locale] : [];
 
   return (
     <div className={cn("relative", className)}>
@@ -35,7 +29,6 @@ export function TechRadar({
         className="relative mx-auto h-[240px] w-[240px]"
         style={{ maxWidth: "100%" }}
       >
-        {/* Anillos concéntricos decorativos */}
         <div
           className="absolute left-1/2 top-1/2 h-[180px] w-[180px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[color:var(--border)] opacity-60"
           aria-hidden
@@ -55,6 +48,7 @@ export function TechRadar({
           const x = CENTER + RADIUS * Math.cos(rad);
           const y = CENTER + RADIUS * Math.sin(rad);
           const isActive = activeId === cat.id;
+          const label = cat.label[locale];
           return (
             <button
               key={cat.id}
@@ -66,19 +60,12 @@ export function TechRadar({
                 isActive &&
                   "border-[color:var(--accent)] bg-[color:var(--accent-soft)] ring-2 ring-[color:var(--accent)]"
               )}
-              style={{
-                left: x - 18,
-                top: y - 18,
-              }}
+              style={{ left: x - 18, top: y - 18 }}
               onClick={() => setActiveId(isActive ? null : cat.id)}
               aria-expanded={isActive}
-              aria-label={
-                locale === "es"
-                  ? `Ver ${cat.label.es}`
-                  : `View ${cat.label.en}`
-              }
+              aria-label={`${RADAR_VIEW[locale]} ${label}`}
             >
-              {locale === "es" ? cat.label.es.slice(0, 2) : cat.label.en.slice(0, 2)}
+              {label.slice(0, 2)}
             </button>
           );
         })}
@@ -88,11 +75,11 @@ export function TechRadar({
         <div
           className="mt-4"
           role="region"
-          aria-label={locale === "es" ? active.label.es : active.label.en}
+          aria-label={active.label[locale]}
         >
           <Card className="flex min-h-[7.5rem] flex-col p-4">
             <h3 className="text-xs font-semibold uppercase tracking-[0.15em] text-foreground">
-              {locale === "es" ? active.label.es : active.label.en}
+              {active.label[locale]}
             </h3>
             <ul className="skill-tags mt-3 flex flex-1 flex-wrap content-start gap-2 text-[11px]">
               {items.map((item) => (

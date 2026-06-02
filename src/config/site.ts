@@ -13,12 +13,12 @@ export const siteConfig = {
   /** Estado actual para el bloque "Now". */
   now: {
     es: {
-      building: "Plataforma AMIA y este portfolio",
-      learning: "Arquitectura y testing",
+      building: "ZLE Store – E-commerce mayorista en ForIT",
+      learning: "Escalabilidad avanzada y optimización de performance",
     },
     en: {
-      building: "AMIA platform and this portfolio",
-      learning: "Architecture and testing",
+      building: "ZLE Store – wholesale e-commerce at ForIT",
+      learning: "Advanced scalability and performance optimization",
     },
   },
 } as const;

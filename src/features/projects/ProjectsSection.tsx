@@ -7,6 +7,7 @@ import {
   filterProjectsByTech,
 } from "@/lib/filters";
 import type { Locale } from "@/types";
+import { i18n } from "@/lib/i18n";
 import { Chip } from "@/components/ui/Chip";
 import { EyebrowLabel } from "@/components/ui/EyebrowLabel";
 import { ProjectCard } from "./ProjectCard";
@@ -27,6 +28,7 @@ export function ProjectsSection({
   filterTech,
   setFilterTech,
 }: ProjectsSectionProps) {
+  const tx = i18n[locale];
   const featured = getFeaturedProjects(projects);
   const filtered = filterProjectsByTech(
     filterProjectsByType(projects, filterType),
@@ -36,19 +38,9 @@ export function ProjectsSection({
   return (
     <section id="projects" className="section">
       <div className="container-page">
-        <EyebrowLabel>
-          {locale === "es" ? "Proyectos destacados" : "Featured projects"}
-        </EyebrowLabel>
-        <h2 className="section-heading">
-          {locale === "es"
-            ? "Casos de estudio seleccionados"
-            : "Selected case studies"}
-        </h2>
-        <p className="section-description">
-          {locale === "es"
-            ? "Proyectos que resumen cómo pienso el frontend, el backend y las decisiones de arquitectura cuando construyo productos."
-            : "Projects that show how I approach frontend, backend and architecture decisions when building products."}
-        </p>
+        <EyebrowLabel>{tx.projectsEyebrow}</EyebrowLabel>
+        <h2 className="section-heading">{tx.projectsHeading}</h2>
+        <p className="section-description">{tx.projectsDescription}</p>
 
         <div className="mt-6 flex flex-wrap gap-2 text-[11px] text-muted">
           <Chip>Fullstack</Chip>

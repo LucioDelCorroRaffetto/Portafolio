@@ -1,10 +1,21 @@
 "use client";
 
 import type { Locale } from "@/types";
+import { i18n } from "@/lib/i18n";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Chip } from "@/components/ui/Chip";
 import { StatsBlock } from "@/components/ui/StatsBlock";
+import { TypewriterText } from "@/components/effects/TypewriterText";
+import { projects } from "@/content/projects";
+import type { ProjectType } from "@/types/project";
+
+const ROLES = [
+  "Full Stack Developer",
+  "Product Builder",
+  "Architecture Thinker",
+  "TypeScript · React · Node.js",
+];
 
 interface HeroSectionProps {
   locale: Locale;
@@ -12,50 +23,78 @@ interface HeroSectionProps {
   scrollToContact: () => void;
 }
 
+function getTagMeta(
+  type: ProjectType,
+  isFirst: boolean,
+  locale: Locale,
+): { tag: string; tagClass: string } {
+  const tx = i18n[locale];
+  if (isFirst) {
+    return {
+      tag: tx.heroTagActive,
+      tagClass: "bg-emerald-500/10 text-emerald-300",
+    };
+  }
+  switch (type) {
+    case "backend":
+    case "microservice":
+      return { tag: "Backend", tagClass: "bg-violet-500/10 text-violet-300" };
+    case "game":
+      return { tag: "Game", tagClass: "bg-amber-500/10 text-amber-300" };
+    default:
+      return { tag: "Fullstack", tagClass: "bg-sky-500/10 text-sky-300" };
+  }
+}
+
 export function HeroSection({
   locale,
   scrollToProjects,
   scrollToContact,
 }: HeroSectionProps) {
+  const tx = i18n[locale];
+  const featuredProjects = projects.filter((p) => p.featured).slice(0, 3);
+
+  const recentActivity = featuredProjects.map((project, i) => {
+    const isFirst = i === 0;
+    const { tag, tagClass } = getTagMeta(project.type, isFirst, locale);
+    return {
+      check: isFirst ? "▶" : "✔",
+      title: project.title[locale],
+      desc: project.techStack.slice(0, 5).join(" · ") + ".",
+      tag,
+      tagClass,
+    };
+  });
+
   return (
     <section id="hero" className="section">
       <div className="container-page grid gap-6 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1.2fr)] lg:items-start">
         <div className="space-y-6">
           <p className="text-xs font-semibold uppercase tracking-[0.35em] text-muted">
-            {locale === "es"
-              ? "Developer Ownership · Product Mindset"
-              : "Developer Ownership · Product Mindset"}
+            {tx.heroTagline}
           </p>
+          <div className="flex items-center gap-2">
+            <span
+              className="h-1.5 w-1.5 shrink-0 rounded-full bg-[color:var(--accent)]"
+              style={{ animation: "pulse 3s cubic-bezier(0.4, 0, 0.6, 1) 2s infinite" }}
+              aria-hidden
+            />
+            <TypewriterText
+              words={ROLES}
+              className="font-mono text-[11px] text-[color:var(--accent)]"
+            />
+          </div>
           <h1 className="hero-title text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl">
-            {locale === "es" ? (
-              <>
-                Construyo productos cuidando{" "}
-                <span className="highlight">código, UX y arquitectura.</span>
-              </>
-            ) : (
-              <>
-                I build products caring about{" "}
-                <span className="highlight">code, UX and architecture.</span>
-              </>
-            )}
+            {tx.heroH1Pre}{" "}
+            <span className="highlight">{tx.heroH1Highlight}</span>
           </h1>
           <p className="max-w-xl text-sm leading-relaxed text-muted sm:text-base">
-            {locale === "es"
-              ? "Full Stack Developer con foco en TypeScript, React, Node.js y bases de datos relacionales. Me muevo cómodo entre frontend, backend y diseño de experiencias, aplicando TDD, arquitectura limpia y una mirada de producto."
-              : "Full Stack Developer focused on TypeScript, React, Node.js and relational databases. I move comfortably between frontend, backend and UX design, applying TDD, clean architecture and a strong product mindset."}
+            {tx.heroBio}
           </p>
 
           <div className="rounded-lg border border-[color:var(--border)] surface-soft p-3 text-xs text-muted">
-            <p className="font-medium text-foreground">
-              {locale === "es"
-                ? "Me interesa construir productos que realmente se usen."
-                : "I care about building products that people actually use."}
-            </p>
-            <p className="mt-1.5">
-              {locale === "es"
-                ? "No solo escribir código, sino entender: el problema del usuario, el flujo de la experiencia y la mantenibilidad del sistema."
-                : "Not just writing code—understanding the user problem, the experience flow, and system maintainability."}
-            </p>
+            <p className="font-medium text-foreground">{tx.heroMindsetTitle}</p>
+            <p className="mt-1.5">{tx.heroMindsetBody}</p>
           </div>
 
           <div className="flex flex-wrap gap-3">
@@ -63,17 +102,17 @@ export function HeroSection({
               onClick={scrollToProjects}
               variant="primary"
               className="group px-5 py-2.5 text-xs uppercase tracking-[0.2em]"
-              aria-label={locale === "es" ? "Ir a la sección Proyectos" : "Go to Projects section"}
+              aria-label={tx.heroBtnProjectsAria}
             >
-              {locale === "es" ? "Explorar proyectos" : "Explore projects"}
+              {tx.heroBtnProjects}
               <span className="ml-2 inline-block transition-transform group-hover:translate-y-0.5" aria-hidden>↓</span>
             </Button>
             <Button
               onClick={scrollToContact}
               variant="outline"
-              aria-label={locale === "es" ? "Ir a la sección Contacto" : "Go to Contact section"}
+              aria-label={tx.heroBtnContactAria}
             >
-              {locale === "es" ? "Contactar" : "Contact"}
+              {tx.heroBtnContact}
             </Button>
           </div>
 
@@ -89,32 +128,10 @@ export function HeroSection({
         <aside>
           <Card className="space-y-3 p-4 text-sm" hover>
             <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-muted-soft">
-              {locale === "es" ? "Actividad reciente" : "Recent activity"}
+              {tx.heroRecentActivity}
             </p>
             <ul className="space-y-2 text-[11px] text-muted">
-              {[
-                {
-                  check: "✔",
-                  title: "AMIA · Recruiting Platform",
-                  desc: "Monorepo · TDD · Clean Architecture · multi-tenant.",
-                  tag: "Fullstack",
-                  tagClass: "bg-emerald-500/10 text-emerald-300",
-                },
-                {
-                  check: "✔",
-                  title: "ContactShip · Leads + IA",
-                  desc: "NestJS · Redis · Bull · Hugging Face · testing 80%+.",
-                  tag: "Backend",
-                  tagClass: "bg-sky-500/10 text-sky-300",
-                },
-                {
-                  check: "✔",
-                  title: "El Impostor · PWA Game",
-                  desc: "React · Vite · Tailwind · Framer Motion · offline ready.",
-                  tag: "Frontend",
-                  tagClass: "bg-violet-500/10 text-violet-300",
-                },
-              ].map((item, i) => (
+              {recentActivity.map((item, i) => (
                 <li
                   key={i}
                   className="flex items-start justify-between gap-2 rounded-md surface-soft p-2"
@@ -137,11 +154,7 @@ export function HeroSection({
                 </li>
               ))}
             </ul>
-            <p className="text-[11px] text-muted">
-              {locale === "es"
-                ? "Este portfolio funciona como mi pequeño product lab: los proyectos se cuentan como casos de diseño y arquitectura."
-                : "This portfolio works as my small product lab: projects are told as design and architecture cases."}
-            </p>
+            <p className="text-[11px] text-muted">{tx.heroPortfolioNote}</p>
           </Card>
         </aside>
       </div>

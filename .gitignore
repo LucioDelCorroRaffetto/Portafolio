@@ -38,6 +38,10 @@ yarn-error.log*
 .env.production.local
 !.env.example
 
+# editor / tooling
+.vscode
+.claude
+
 # vercel
 .vercel
 

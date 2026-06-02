@@ -1,6 +1,7 @@
 "use client";
 
 import type { Locale } from "@/types";
+import { i18n } from "@/lib/i18n";
 
 interface ProjectFiltersProps {
   locale: Locale;
@@ -17,10 +18,11 @@ export function ProjectFilters({
   filterTech,
   onTechChange,
 }: ProjectFiltersProps) {
+  const tx = i18n[locale];
   return (
     <div className="flex flex-wrap items-center justify-between gap-4">
       <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-soft">
-        {locale === "es" ? "Todos los proyectos" : "All projects"}
+        {tx.filtersAll}
       </p>
       <div className="flex flex-wrap gap-2 text-[11px] text-muted">
         <select
@@ -28,9 +30,7 @@ export function ProjectFilters({
           onChange={(e) => onTypeChange(e.target.value)}
           className="rounded-md border border-[color:var(--border)] bg-[color:var(--background-soft)] px-2 py-1 text-foreground"
         >
-          <option value="all">
-            {locale === "es" ? "Tipo: todos" : "Type: all"}
-          </option>
+          <option value="all">{tx.filtersTypeAll}</option>
           <option value="frontend">Frontend</option>
           <option value="backend">Backend</option>
           <option value="fullstack">Fullstack</option>
@@ -42,9 +42,7 @@ export function ProjectFilters({
           onChange={(e) => onTechChange(e.target.value)}
           className="rounded-md border border-[color:var(--border)] bg-[color:var(--background-soft)] px-2 py-1 text-foreground"
         >
-          <option value="all">
-            {locale === "es" ? "Stack: todos" : "Stack: all"}
-          </option>
+          <option value="all">{tx.filtersTechAll}</option>
           <option value="react">React</option>
           <option value="node">Node.js</option>
           <option value="nest">NestJS</option>

@@ -3,6 +3,7 @@
 import { useRef, useEffect, useState } from "react";
 import { experience } from "@/content/experience";
 import type { Locale } from "@/types";
+import { i18n } from "@/lib/i18n";
 import { Card } from "@/components/ui/Card";
 import { EyebrowLabel } from "@/components/ui/EyebrowLabel";
 
@@ -11,6 +12,7 @@ interface ExperienceSectionProps {
 }
 
 export function ExperienceSection({ locale }: ExperienceSectionProps) {
+  const tx = i18n[locale];
   const lineRef = useRef<HTMLDivElement>(null);
   const [lineVisible, setLineVisible] = useState(false);
 
@@ -32,19 +34,9 @@ export function ExperienceSection({ locale }: ExperienceSectionProps) {
   return (
     <section id="experience" className="section">
       <div className="container-page">
-        <EyebrowLabel>
-          {locale === "es" ? "Experiencia" : "Experience"}
-        </EyebrowLabel>
-        <h2 className="section-heading">
-          {locale === "es"
-            ? "Dónde estuve construyendo producto"
-            : "Where I've been building product"}
-        </h2>
-        <p className="section-description">
-          {locale === "es"
-            ? "Experiencia profesional reciente trabajando en plataformas reales con foco en calidad, arquitectura y UX."
-            : "Recent professional experience working on real platforms with a focus on quality, architecture and UX."}
-        </p>
+        <EyebrowLabel>{tx.experienceEyebrow}</EyebrowLabel>
+        <h2 className="section-heading">{tx.experienceHeading}</h2>
+        <p className="section-description">{tx.experienceDescription}</p>
 
         <div className="relative mt-10 pl-4 sm:pl-6">
           <div
@@ -63,24 +55,19 @@ export function ExperienceSection({ locale }: ExperienceSectionProps) {
                     <div className="flex flex-wrap items-baseline justify-between gap-2">
                       <div>
                         <h3 className="text-sm font-semibold text-foreground">
-                          {locale === "es" ? item.role.es : item.role.en}
+                          {item.role[locale]}
                         </h3>
                         <p className="text-xs text-muted">{item.company}</p>
                       </div>
                       <p className="text-[11px] text-muted">
-                        {locale === "es" ? item.period.es : item.period.en}
+                        {item.period[locale]}
                       </p>
                     </div>
                     <p className="mt-3 text-sm text-muted">
-                      {locale === "es"
-                        ? item.description.es
-                        : item.description.en}
+                      {item.description[locale]}
                     </p>
                     <ul className="mt-3 space-y-1.5 text-xs text-muted">
-                      {(locale === "es"
-                        ? item.highlights.es
-                        : item.highlights.en
-                      ).map((h) => (
+                      {item.highlights[locale].map((h) => (
                         <li key={h} className="flex gap-2">
                           <span className="mt-[3px] h-1.5 w-1.5 shrink-0 rounded-full bg-muted-soft" />
                           <span>{h}</span>

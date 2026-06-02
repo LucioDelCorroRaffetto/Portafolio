@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
+import { i18n } from "@/lib/i18n";
 import type { Locale } from "@/types";
 import type { SectionId } from "@/types";
 import { siteConfig } from "@/config/site";
@@ -16,121 +17,70 @@ type Line = { type: "input" | "output"; text: string };
 
 const PROMPT = "~ $ ";
 
+const CAT_SNIPPETS: Record<string, { es: string; en: string }> = {
+  about: {
+    es: "Sobre mí: presentación profesional y grid de stack (Frontend, Backend, DB, DevOps).",
+    en: "About: professional intro and stack grid (Frontend, Backend, DB, DevOps).",
+  },
+  projects: {
+    es: "Proyectos destacados + listado con filtros. Casos de diseño y arquitectura.",
+    en: "Featured projects + list with filters. Design and architecture cases.",
+  },
+  experience: {
+    es: "Timeline: empresa, rol, período, impacto técnico.",
+    en: "Timeline: company, role, period, technical impact.",
+  },
+  contact: {
+    es: "Disponibilidad y datos de contacto (email, LinkedIn, GitHub, teléfono).",
+    en: "Availability and contact (email, LinkedIn, GitHub, phone).",
+  },
+  approach: {
+    es: "Cómo trabajo: arquitectura, TDD, componentes, UX, comunicación.",
+    en: "How I work: architecture, TDD, components, UX, communication.",
+  },
+  exploring: {
+    es: "Qué estoy explorando: temas en investigación.",
+    en: "What I'm exploring: topics under research.",
+  },
+  learning: {
+    es: "Formación: institución, programa, período.",
+    en: "Learning: institution, program, period.",
+  },
+};
+
 function runCommand(
   cmd: string,
   locale: Locale
 ): { output: string; scroll?: SectionId } {
+  const tx = i18n[locale];
   const c = cmd.trim().toLowerCase();
   const args = cmd.trim().split(/\s+/);
   const cmdName = args[0]?.toLowerCase() ?? "";
 
-  if (c === "help") {
-    return {
-      output:
-        locale === "es"
-          ? `Comandos disponibles:
-  whoami     Quién soy
-  ls         Listar secciones
-  cat <sec>  Ver about, projects, experience, contact
-  projects   Ir a Proyectos
-  contact   Ir a Contacto
-  clear     Limpiar pantalla
-  help      Esta ayuda`
-          : `Available commands:
-  whoami     Who I am
-  ls         List sections
-  cat <sec>  View about, projects, experience, contact
-  projects   Go to Projects
-  contact   Go to Contact
-  clear     Clear screen
-  help      This help`,
-    };
-  }
+  if (c === "help") return { output: tx.terminalHelp };
 
   if (c === "whoami") {
     return {
-      output:
-        locale === "es"
-          ? `${siteConfig.name}
-${siteConfig.role} · ${siteConfig.location}
-${siteConfig.locationNote}
-
-"Construyo productos cuidando código, UX y arquitectura."
-Stack: TypeScript, React, Node.js, PostgreSQL, TDD.`
-          : `${siteConfig.name}
-${siteConfig.role} · ${siteConfig.location}
-${siteConfig.locationNote}
-
-"I build products caring about code, UX and architecture."
-Stack: TypeScript, React, Node.js, PostgreSQL, TDD.`,
+      output: `${siteConfig.name}\n${siteConfig.role} · ${siteConfig.location}\n${siteConfig.locationNote}\n\n${tx.terminalWhoamiQuote}\nStack: TypeScript, React, Node.js, PostgreSQL, TDD.`,
     };
   }
 
   if (c === "ls") {
-    return {
-      output:
-        locale === "es"
-          ? "about  approach  experience  exploring  learning  projects  contact"
-          : "about  approach  experience  exploring  learning  projects  contact",
-    };
+    return { output: "about  approach  experience  exploring  learning  projects  contact" };
   }
 
   if (cmdName === "cat" && args[1]) {
     const sec = args[1].toLowerCase();
-    const snippets: Record<string, { es: string; en: string }> = {
-      about: {
-        es: "Sobre mí: presentación profesional y grid de stack (Frontend, Backend, DB, DevOps).",
-        en: "About: professional intro and stack grid (Frontend, Backend, DB, DevOps).",
-      },
-      projects: {
-        es: "Proyectos destacados + listado con filtros. Casos de diseño y arquitectura.",
-        en: "Featured projects + list with filters. Design and architecture cases.",
-      },
-      experience: {
-        es: "Timeline: empresa, rol, período, impacto técnico.",
-        en: "Timeline: company, role, period, technical impact.",
-      },
-      contact: {
-        es: "Disponibilidad y datos de contacto (email, LinkedIn, GitHub, teléfono).",
-        en: "Availability and contact (email, LinkedIn, GitHub, phone).",
-      },
-      approach: {
-        es: "Cómo trabajo: arquitectura, TDD, componentes, UX, comunicación.",
-        en: "How I work: architecture, TDD, components, UX, communication.",
-      },
-      exploring: {
-        es: "Qué estoy explorando: temas en investigación.",
-        en: "What I'm exploring: topics under research.",
-      },
-      learning: {
-        es: "Formación: institución, programa, período.",
-        en: "Learning: institution, program, period.",
-      },
-    };
-    const block = snippets[sec] ?? snippets.about;
-    return { output: locale === "es" ? block.es : block.en };
+    const block = CAT_SNIPPETS[sec] ?? CAT_SNIPPETS.about;
+    return { output: block[locale] };
   }
 
-  if (c === "projects") {
-    return { output: locale === "es" ? "→ Proyectos" : "→ Projects", scroll: "projects" };
-  }
+  if (c === "projects") return { output: tx.terminalNavProjects, scroll: "projects" };
+  if (c === "contact")  return { output: tx.terminalNavContact,  scroll: "contact"  };
+  if (c === "clear")    return { output: "\0" };
+  if (!c)               return { output: "" };
 
-  if (c === "contact") {
-    return { output: locale === "es" ? "→ Contacto" : "→ Contact", scroll: "contact" };
-  }
-
-  if (c === "clear") {
-    return { output: "\0" };
-  }
-
-  if (!c) return { output: "" };
-
-  return {
-    output:
-      locale === "es"
-        ? `Comando no encontrado: ${args[0]}. Escribe 'help' para ver comandos.`
-        : `Command not found: ${args[0]}. Type 'help' for commands.`,
-  };
+  return { output: tx.terminalUnknownCmd(args[0] ?? "") };
 }
 
 export function InteractiveTerminal({ locale, scrollToSection }: InteractiveTerminalProps) {
@@ -148,15 +98,7 @@ export function InteractiveTerminal({ locale, scrollToSection }: InteractiveTerm
   useEffect(() => {
     if (open) {
       inputRef.current?.focus();
-      setLines([
-        {
-          type: "output",
-          text:
-            locale === "es"
-              ? "Terminal del portfolio. Escribe 'help' para empezar."
-              : "Portfolio terminal. Type 'help' to get started.",
-        },
-      ]);
+      setLines([{ type: "output", text: i18n[locale].terminalWelcome }]);
     }
   }, [open, locale]);
 
@@ -223,18 +165,18 @@ export function InteractiveTerminal({ locale, scrollToSection }: InteractiveTerm
     }
   };
 
+  const tx = i18n[locale];
+
   return (
     <>
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="fixed bottom-6 right-6 z-40 flex items-center gap-2 rounded-xl border border-[color:var(--border)] bg-[color:var(--background-soft)] px-4 py-2.5 text-xs font-medium text-foreground shadow-lg transition hover:border-[color:var(--accent)] hover:shadow-[0_0_20px_rgba(99,102,241,0.15)] focus:outline-none focus:ring-2 focus:ring-[color:var(--accent)]"
-        aria-label={locale === "es" ? "Abrir terminal interactivo" : "Open interactive terminal"}
+        className="fixed bottom-6 right-6 z-40 flex items-center gap-2 rounded-xl border border-[color:var(--border)] bg-[color:var(--background-soft)] px-4 py-2.5 text-xs font-medium text-foreground shadow-lg transition hover:border-[color:var(--accent)] hover:shadow-[0_0_20px_rgba(45,212,191,0.18)] focus:outline-none focus:ring-2 focus:ring-[color:var(--accent)]"
+        aria-label={tx.terminalAriaOpen}
       >
         <span className="font-mono text-[color:var(--accent)]">&gt;_</span>
-        <span className="hidden sm:inline">
-          {locale === "es" ? "Terminal" : "Terminal"}
-        </span>
+        <span className="hidden sm:inline">Terminal</span>
       </button>
 
       {open && (
@@ -245,7 +187,7 @@ export function InteractiveTerminal({ locale, scrollToSection }: InteractiveTerm
           )}
           onClick={() => setOpen(false)}
           role="dialog"
-          aria-label={locale === "es" ? "Terminal interactivo" : "Interactive terminal"}
+          aria-label={tx.terminalAriaDialog}
         >
           <div
             className={cn(
@@ -274,7 +216,7 @@ export function InteractiveTerminal({ locale, scrollToSection }: InteractiveTerm
                 type="button"
                 onClick={() => setOpen(false)}
                 className={isLight ? "hover:text-slate-900" : "hover:text-foreground"}
-                aria-label={locale === "es" ? "Cerrar" : "Close"}
+                aria-label={tx.terminalAriaClose}
               >
                 ✕
               </button>
@@ -319,7 +261,7 @@ export function InteractiveTerminal({ locale, scrollToSection }: InteractiveTerm
                     ? "text-slate-900 placeholder:text-slate-500"
                     : "text-foreground placeholder:text-muted"
                 )}
-                placeholder={locale === "es" ? "Escribe un comando..." : "Type a command..."}
+                placeholder={tx.terminalPlaceholder}
                 autoComplete="off"
                 spellCheck={false}
               />

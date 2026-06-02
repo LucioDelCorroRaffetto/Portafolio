@@ -44,7 +44,7 @@ export function CursorSpotlight() {
           top: position.y,
           width: RADIUS * 2,
           height: RADIUS * 2,
-          background: `radial-gradient(circle, rgba(99, 102, 241, 0.2) 0%, rgba(99, 102, 241, 0.08) 35%, transparent 70%)`,
+          background: `radial-gradient(circle, rgba(45, 212, 191, 0.2) 0%, rgba(45, 212, 191, 0.08) 35%, transparent 70%)`,
           opacity: OPACITY,
         }}
       />
