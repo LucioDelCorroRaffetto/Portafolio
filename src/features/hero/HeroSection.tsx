@@ -8,7 +8,7 @@ import { Chip } from "@/components/ui/Chip";
 import { StatsBlock } from "@/components/ui/StatsBlock";
 import { TypewriterText } from "@/components/effects/TypewriterText";
 import { projects } from "@/content/projects";
-import type { ProjectType } from "@/types/project";
+import type { ProjectStatus, ProjectType } from "@/types/project";
 
 const ROLES = [
   "Full Stack Developer",
@@ -25,10 +25,17 @@ interface HeroSectionProps {
 
 function getTagMeta(
   type: ProjectType,
+  status: ProjectStatus | undefined,
   isFirst: boolean,
   locale: Locale,
 ): { tag: string; tagClass: string } {
   const tx = i18n[locale];
+  if (status === "finished") {
+    return {
+      tag: tx.projectStatusFinished,
+      tagClass: "bg-slate-500/10 text-muted",
+    };
+  }
   if (isFirst) {
     return {
       tag: tx.heroTagActive,
@@ -56,7 +63,7 @@ export function HeroSection({
 
   const recentActivity = featuredProjects.map((project, i) => {
     const isFirst = i === 0;
-    const { tag, tagClass } = getTagMeta(project.type, isFirst, locale);
+    const { tag, tagClass } = getTagMeta(project.type, project.status, isFirst, locale);
     return {
       check: isFirst ? "▶" : "✔",
       title: project.title[locale],
@@ -92,7 +99,7 @@ export function HeroSection({
             {tx.heroBio}
           </p>
 
-          <div className="rounded-lg border border-[color:var(--border)] surface-soft p-3 text-xs text-muted">
+          <div className="min-w-0 max-w-full break-words rounded-lg border border-[color:var(--border)] surface-soft p-3 text-xs text-muted">
             <p className="font-medium text-foreground">{tx.heroMindsetTitle}</p>
             <p className="mt-1.5">{tx.heroMindsetBody}</p>
           </div>

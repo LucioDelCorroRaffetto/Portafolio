@@ -11,8 +11,8 @@ export const learning: LearningItem[] = [
       en: "Systems Engineering (in progress)",
     },
     period: {
-      es: "Ago 2025 – Dic 2033",
-      en: "Aug 2025 – Dec 2033",
+      es: "Ago 2025 – actualidad",
+      en: "Aug 2025 – present",
     },
     description: {
       es: "Formación académica en ciencias de la computación, algoritmos y fundamentos de ingeniería de software.",

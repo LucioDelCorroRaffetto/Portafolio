@@ -66,7 +66,7 @@ export function SkillsMatcher({ locale }: SkillsMatcherProps) {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="fixed bottom-[4.75rem] right-6 z-40 flex items-center gap-2 rounded-xl border border-[color:var(--border)] bg-[color:var(--background-soft)] px-4 py-2.5 text-xs font-medium text-foreground shadow-lg transition hover:border-[color:var(--accent)] hover:shadow-[0_0_20px_rgba(45,212,191,0.18)] focus:outline-none focus:ring-2 focus:ring-[color:var(--accent)]"
+        className="fixed bottom-[4.75rem] right-6 z-40 hidden items-center gap-2 rounded-xl sm:flex border border-[color:var(--border)] bg-[color:var(--background-soft)] px-4 py-2.5 text-xs font-medium text-foreground shadow-lg transition hover:border-[color:var(--accent)] hover:shadow-[0_0_20px_rgba(45,212,191,0.18)] focus:outline-none focus:ring-2 focus:ring-[color:var(--accent)]"
         aria-label={tx.skillsMatcherBtn}
       >
         <span className="text-[color:var(--accent)] text-sm leading-none">✦</span>

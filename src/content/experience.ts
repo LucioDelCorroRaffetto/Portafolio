@@ -41,8 +41,8 @@ export const experience: ExperienceItem[] = [
       en: "Developer Ownership",
     },
     period: {
-      es: "ago. 2025 – mar. 2026 · 9 meses",
-      en: "Aug 2025 – Mar 2026 · 9 months",
+      es: "ago. 2025 – mar. 2026 · 8 meses",
+      en: "Aug 2025 – Mar 2026 · 8 months",
     },
     description: {
       es: "Primer trabajo en IT en un proyecto real con cliente real. Evolucioné de Developer a Developer Ownership: me volví el referente técnico del equipo, tomé decisiones junto al líder y acompañé a nuevos integrantes. Plataforma de recruiting multi-tenant para AMIA, en producción y en uso.",

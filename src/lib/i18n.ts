@@ -59,6 +59,7 @@ export type I18n = {
   projectStatusProfessional: string;
   projectStatusPersonal: string;
   projectStatusAcademic: string;
+  projectStatusFinished: string;
   projectDetails: string;
   projectOpenAria: (title: string) => string;
   projectSectionContext: string;
@@ -190,6 +191,7 @@ export const i18n: Record<Locale, I18n> = {
     projectStatusProfessional: "Profesional",
     projectStatusPersonal: "Personal",
     projectStatusAcademic: "Académico",
+    projectStatusFinished: "Finalizado",
     projectDetails: "Ver detalles",
     projectOpenAria: (title) => `Ver detalles de ${title}`,
     projectSectionContext: "Contexto",
@@ -328,6 +330,7 @@ export const i18n: Record<Locale, I18n> = {
     projectStatusProfessional: "Professional",
     projectStatusPersonal: "Personal",
     projectStatusAcademic: "Academic",
+    projectStatusFinished: "Finished",
     projectDetails: "View details",
     projectOpenAria: (title) => `View details of ${title}`,
     projectSectionContext: "Context",

@@ -11,8 +11,14 @@ export type ProjectType =
  * - professional: trabajo profesional (cliente / software factory).
  * - personal: proyecto personal / autodidacta.
  * - academic: proyecto académico o integrador.
+ * - finished: desplegado pero ya cumplió su ciclo (p. ej. un evento terminado).
  */
-export type ProjectStatus = "live" | "professional" | "personal" | "academic";
+export type ProjectStatus =
+  | "live"
+  | "professional"
+  | "personal"
+  | "academic"
+  | "finished";
 
 export type TechTag =
   | "react"

@@ -16,7 +16,7 @@ const totalSkills = skillCategories.reduce(
 const STATS = [
   {
     value: siteConfig.yearsOfExperience,
-    label: { es: "Años en producto", en: "Years in product" },
+    label: { es: "Año en producto", en: "Year in product" },
     suffix: "+",
   },
   {

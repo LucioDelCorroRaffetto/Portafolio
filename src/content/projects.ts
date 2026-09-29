@@ -12,7 +12,7 @@ export const projects: Project[] = [
     slug: "mundialito",
     type: "fullstack",
     featured: true,
-    status: "live",
+    status: "finished",
     title: {
       es: "Mundialito – PWA del Mundial 2026",
       en: "Mundialito – World Cup 2026 PWA",
@@ -66,7 +66,7 @@ export const projects: Project[] = [
     },
     links: {
       github: "https://github.com/LucioDelCorroRaffetto/Mundialito",
-      live: "https://mundialito.vercel.app",
+      live: "https://mundialito-pi.vercel.app",
     },
     meta: {
       context: {
@@ -78,8 +78,8 @@ export const projects: Project[] = [
         en: "Sole role: product design, frontend, backend, database, real-time and deployment.",
       },
       metrics: {
-        es: "104 partidos · 48 selecciones · 20 logros · leaderboards en tiempo real · TypeScript 99%",
-        en: "104 matches · 48 national teams · 20 achievements · real-time leaderboards · 99% TypeScript",
+        es: "~40 usuarios durante el Mundial · 104 partidos · 48 selecciones · 20 logros · TypeScript 99%",
+        en: "~40 users during the World Cup · 104 matches · 48 national teams · 20 achievements · 99% TypeScript",
       },
     },
   },
@@ -142,8 +142,8 @@ export const projects: Project[] = [
         en: "Technical Team Lead: architecture decisions, code review, team mentoring and prioritization.",
       },
       metrics: {
-        es: "3 devs liderados · 5 módulos en sprint · +200 commits revisados · monorepo de 4 paquetes",
-        en: "3 devs led · 5 modules in sprint · 200+ commits reviewed · 4-package monorepo",
+        es: "3 devs liderados · 5 módulos en sprint · monorepo de 4 paquetes",
+        en: "3 devs led · 5 modules in sprint · 4-package monorepo",
       },
     },
   },
@@ -207,8 +207,8 @@ export const projects: Project[] = [
         en: "Lead role: Developer Ownership (evolved from Developer → Developer Quality). I'm the most senior on the project: I make technical decisions with the leader, guide the team and act as mentor both for the product (many features) and for new joiners. Technical go-to for the project.",
       },
       metrics: {
-        es: "500+ postulantes gestionados · 8 módulos en producción · cobertura TDD >75% · 2 roles de usuario",
-        en: "500+ applicants managed · 8 modules in production · >75% TDD coverage · 2 user roles",
+        es: "8 módulos en producción · 2 roles de usuario · TDD con Vitest",
+        en: "8 modules in production · 2 user roles · TDD with Vitest",
       },
     },
   },
@@ -271,8 +271,8 @@ export const projects: Project[] = [
         en: "Sole role: design and implementation of the microservice (backend, AI, queues, tests).",
       },
       metrics: {
-        es: "Cobertura tests >80% · caché Redis -60% latencia · 5 modelos IA evaluados · ~1.200 líneas de código",
-        en: ">80% test coverage · Redis cache -60% latency · 5 AI models evaluated · ~1,200 lines of code",
+        es: "Tests unitarios y E2E · colas con Bull · caché con Redis · resúmenes con IA",
+        en: "Unit and E2E tests · Bull queues · Redis caching · AI summaries",
       },
     },
   },
@@ -322,19 +322,20 @@ export const projects: Project[] = [
     },
     links: {
       github: "https://github.com/LucioDelCorroRaffetto/impostor-app",
+      live: "https://impostor-app-lyart.vercel.app",
     },
     meta: {
       context: {
-        es: "Proyecto autodidacta para explorar UX de juegos de fiesta y PWA. Actualmente hosteado en GitHub Pages.",
-        en: "Self-directed project to explore party game UX and PWAs. Currently hosted on GitHub Pages.",
+        es: "Proyecto autodidacta para explorar UX de juegos de fiesta y PWA. Desplegado en Vercel, con Vercel Functions como proxy de la API de IA.",
+        en: "Self-directed project to explore party game UX and PWAs. Deployed on Vercel, with Vercel Functions proxying the AI API.",
       },
       ownership: {
-        es: "Rol único: diseño, desarrollo y decisiones de UX. Plan a futuro: IA para categorías y despliegue en Vercel.",
-        en: "Sole role: design, development and UX decisions. Future plan: AI for categories and deploy on Vercel.",
+        es: "Rol único: diseño, desarrollo y decisiones de UX.",
+        en: "Sole role: design, development and UX decisions.",
       },
       metrics: {
-        es: "100+ usuarios reales · 1.600+ palabras offline · 5 modelos IA con fallback · 13 categorías",
-        en: "100+ real users · 1,600+ words offline · 5 AI models with fallback · 13 categories",
+        es: "1.600+ palabras offline · 5 modelos IA con fallback · 13 categorías",
+        en: "1,600+ words offline · 5 AI models with fallback · 13 categories",
       },
     },
   },

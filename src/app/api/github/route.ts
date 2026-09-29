@@ -22,6 +22,54 @@ const GH_HEADERS = {
   Accept: "application/vnd.github+json",
 };
 
+interface GitHubRepo {
+  name: string;
+  full_name: string;
+  fork: boolean;
+  pushed_at: string;
+  html_url: string;
+}
+
+async function recentRepoActivity(): Promise<GitHubActivityItem[]> {
+  const res = await fetch(
+    `https://api.github.com/users/${GITHUB_USER}/repos?sort=pushed&per_page=10`,
+    { headers: GH_HEADERS, next: { revalidate: 3600 } }
+  );
+  if (!res.ok) return [];
+
+  const repos = ((await res.json()) as GitHubRepo[])
+    // Skip forks and the profile README repo (auto-updated, not real work).
+    .filter((r) => !r.fork && r.name !== GITHUB_USER)
+    .slice(0, 5);
+
+  const items = await Promise.all(
+    repos.map(async (r): Promise<GitHubActivityItem | null> => {
+      try {
+        const cRes = await fetch(
+          `https://api.github.com/repos/${r.full_name}/commits?per_page=1`,
+          { headers: GH_HEADERS, next: { revalidate: 3600 } }
+        );
+        if (!cRes.ok) return null;
+        const [latest] = (await cRes.json()) as {
+          commit?: { message?: string };
+        }[];
+        const message = (latest?.commit?.message ?? "").split("\n")[0].trim();
+        if (!message) return null;
+        return {
+          repoName: r.full_name,
+          message,
+          date: r.pushed_at,
+          url: r.html_url,
+        };
+      } catch {
+        return null;
+      }
+    })
+  );
+
+  return items.filter((x): x is GitHubActivityItem => x !== null);
+}
+
 export async function GET() {
   try {
     const res = await fetch(
@@ -80,7 +128,12 @@ export async function GET() {
       )
     ).filter((x): x is GitHubActivityItem => x !== null);
 
-    return NextResponse.json({ items });
+    if (items.length > 0) return NextResponse.json({ items });
+
+    // The events feed only covers the last 90 days of *public* activity, and
+    // most day-to-day work lands in private org repos. Fall back to the most
+    // recently pushed public repos and their latest commit.
+    return NextResponse.json({ items: await recentRepoActivity() });
   } catch {
     return NextResponse.json({ items: [] }, { status: 200 });
   }

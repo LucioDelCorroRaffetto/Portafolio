@@ -576,7 +576,8 @@ html.light .navbar-float {
   background-color: rgba(167, 139, 250, 0.12);
   border-color: rgba(167, 139, 250, 0.3);
 }
-.status-badge-academic {
+.status-badge-academic,
+.status-badge-finished {
   color: var(--muted);
   background-color: color-mix(in srgb, var(--muted) 12%, transparent);
   border-color: color-mix(in srgb, var(--muted) 28%, transparent);

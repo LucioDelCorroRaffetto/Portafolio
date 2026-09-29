@@ -9,7 +9,7 @@ export const siteConfig = {
   phone: "+54 9 11 3331 4759",
   englishLevel: "C1 English",
   /** Años de experiencia profesional (para contador animado). */
-  yearsOfExperience: 2,
+  yearsOfExperience: 1,
   /** Estado actual para el bloque "Now". */
   now: {
     es: {

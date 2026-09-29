@@ -14,6 +14,7 @@ export function StatusBadge({
     professional: tx.projectStatusProfessional,
     personal: tx.projectStatusPersonal,
     academic: tx.projectStatusAcademic,
+    finished: tx.projectStatusFinished,
   }[status];
 
   return (
