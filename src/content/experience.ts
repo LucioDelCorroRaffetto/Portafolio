@@ -11,8 +11,8 @@ export const experience: ExperienceItem[] = [
       en: "Team Lead",
     },
     period: {
-      es: "mar. 2026 · actualidad",
-      en: "Mar 2026 · present",
+      es: "abr. 2026 · actualidad",
+      en: "Apr 2026 · present",
     },
     description: {
       es: "Liderazgo técnico de un equipo en un e-commerce mayorista. Responsable de organizar el trabajo, tomar decisiones de arquitectura, hacer code review y acompañar al equipo en el día a día. Primeras semanas: entender cómo trabaja el equipo, generar claridad y destrabar bloqueos más que tener todas las respuestas.",
