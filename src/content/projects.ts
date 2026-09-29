@@ -142,8 +142,8 @@ export const projects: Project[] = [
         en: "Technical Team Lead: architecture decisions, code review, team mentoring and prioritization.",
       },
       metrics: {
-        es: "3 devs liderados · 5 módulos en sprint · monorepo de 4 paquetes",
-        en: "3 devs led · 5 modules in sprint · 4-package monorepo",
+        es: "6 devs liderados · 5 módulos en sprint · monorepo de 4 paquetes",
+        en: "6 devs led · 5 modules in sprint · 4-package monorepo",
       },
     },
   },
